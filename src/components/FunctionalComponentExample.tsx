@@ -1,5 +1,10 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import { User } from "../interfaces/User";
+import * as actions from "../actions/userActions";
+import { UserAction } from "../interfaces/Actions";
+import { UserReducer } from "../interfaces/Reducer";
 
 interface FunctionalComponentExampleProps {
   users: Array<User>;
@@ -8,6 +13,16 @@ interface FunctionalComponentExampleProps {
 const FunctionalComponentExample: React.FunctionComponent<FunctionalComponentExampleProps> =
   (props: FunctionalComponentExampleProps): React.ReactElement<void> => {
     const { users } = props;
+
+    // hooks example
+    const dispatch: Dispatch<UserAction> = useDispatch();
+    const moreUsers: Array<User> = useSelector(
+      (state: UserReducer) => state.users
+    );
+
+    React.useEffect(() => {
+      dispatch(actions.getUsers());
+    }, []);
 
     return (
       <table id="users">
